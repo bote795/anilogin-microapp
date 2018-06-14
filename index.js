@@ -41,12 +41,13 @@ express()
       };
       rp(options)
         .then((response)=> {
-           if(response.body.access_token){
+            console.log(body);
+           if(body.access_token){
                return res.json({
-                   acces_token : response.body.access_token
+                 access_token: body.access_token
                });
             } else {
-                handleError(res, response)
+               handleError(res, body)
             }
         })
           .catch((err) => handleError(res, err))
