@@ -8,6 +8,7 @@ const clientId = process.env.ANILIST_CLIENT_ID;
 const clientSecret = process.env.ANILIST_CLIENT_SECRET;
 const redirectUri = process.env.ANILIST_REDIRECT_URI;
 const PORT = process.env.PORT || 5000;
+const chromeCallback = process.env.chromeCallback;
 
 console.log('This is the clientId %s', clientId);
 
@@ -43,9 +44,7 @@ express()
           .then((body)=> {
             console.log(body);
            if(body.access_token){
-               return res.json({
-                 access_token: body.access_token
-               });
+               return res.redirect(`${chromeCallback}?access_token=${body.access_token}`);
             } else {
                handleError(res, body)
             }
