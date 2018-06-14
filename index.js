@@ -36,7 +36,7 @@ express()
               'client_id': clientId,
               'client_secret': clientSecret,
               'redirect_uri': redirectUri, 
-              'code': 'code', 
+              'code': code, 
           }
       };
       rp(options)
