@@ -24,28 +24,32 @@ express()
             handleError(res, {"message": "there was no code"});
         }
 
-        const options = { 
-        method: "POST", 
-        uri: `https://anilist.co/api/v2/oauth/token
-            &grant_type=authorization_code
-                   &client_id=${clientId}
-                   &client_secret=${clientSecret} 
-                   &redirect_uri=${redirectUri}
-                   &code=${code}
-            `,
-            json: true
-        };
+      const options = {
+          uri: 'https://anilist.co/api/v2/oauth/token',
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+          },
+          json: {
+              'grant_type': 'authorization_code',
+              'client_id': clientId,
+              'client_secret': clientSecret,
+              'redirect_uri': redirectUri, 
+              'code': 'code', 
+          }
+      };
       rp(options)
-        .then((body)=> {
-           if(body.access_token){
+        .then((response)=> {
+           if(response.body.access_token){
                return res.json({
-                   acces_token : body.access_token
+                   acces_token : response.body.access_token
                });
             } else {
-                handleError(res, body)
+                handleError(res, response)
             }
         })
-          .catch(() => handleError(res, err))
+          .catch((err) => handleError(res, err))
         
     })
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
